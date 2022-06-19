@@ -7,6 +7,9 @@
 
         {{-- bootstrap cdn --}}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        {{-- ajax cdn --}}
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <style>
             body{
                 background-image: url('{{ asset('Images/Site/landingpage.jpg') }}');
@@ -75,23 +78,36 @@
                     <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
                         <div class="row m-3">
-                            <div class="col-sm-4">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required value="{{ $product->name }}">
+
+                            <div class="col-sm-6">
+                                <img src="{{ asset('/Images/Items/'.$product->image) }}" alt="Product Image" style="height: 200px; width: auto;" class="mx-auto">
+                                <div class="mt-2">
+                                    <button class="btn btn-secondary" type="button" id="changeimage">Change Image</button>
+                                </div>
+                                <div id="newimage" class="mt-2">
+                                    <input type="file" class="form-control" id="productimage" name="productimage">
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="text" class="form-control" id="price" name="price" required value="{{ $product->price }}">
+
+                            <div class="col-sm-6">
+                                <div>
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required value="{{ $product->name }}">
+                                </div>
+                                <div>
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="text" class="form-control" id="price" name="price" required value="{{ $product->price }}">
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                <label for="productimage" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="productimage" name="productimage" required>
-                            </div>
+
                         </div>
+
                         <div class="row m-4">
                             <button class="btn btn-success" type="submit">Update Product</button>
                         </div>
+
                     </form>
 
                 </div>
@@ -99,6 +115,19 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+        <script>
+
+            $(document).ready(function(){
+                $('#newimage').hide();
+            })
+
+            // toggle add image input field
+            $('#changeimage').click(function(){
+                console.log('click');
+                $('#newimage').toggle();
+            });
+        </script>
 
     </body>
 </html>

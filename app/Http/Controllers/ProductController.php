@@ -99,23 +99,24 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'price' => 'required',
-            'productimage' => 'required',
         ]);
 
-        if ($files = $request->file('productimage')) {
+        $product = Product::find($id);
+        $imagename = $product->image;
+
+        if ($request->hasFile('productimage')) {
+            $files = $request->file('productimage');
             $imagename = date('YmHis') . '.' . $files->getClientOriginalExtension();
             $destinationPath = public_path('/Images/Items/');
             $files->move($destinationPath, $imagename);   
-            $product = Product::find($id);
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->image = $imagename;
-            $product->status = 1;
-            $product->save();
-            return redirect()->route('products.index')->with('success', 'Product Update Successfully !!');
-        }else{
-            return back()->with('error', 'Something Went Wrong !!');
-        }
+        }    
+        
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->image = $imagename;
+        $product->status = 1;
+        $product->save();
+        return redirect()->route('products.index')->with('success', 'Product Update Successfully !!');
 
     }
 
