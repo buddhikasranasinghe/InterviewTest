@@ -13,4 +13,9 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('landing');
+
+Route::post('/login', 'UserController@login')->name('login');
+
+Route::resource('products', 'ProductController');
+Route::post('/changestatus/{id}', 'ProductController@changestatus')->name('changestatus');
